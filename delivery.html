@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Menu</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 10px; }
+        .menu-item { border: 1px solid #ddd; padding: 10px; margin: 10px; border-radius: 5px; }
+        .menu-item button { background: #28a745; color: white; border: none; padding: 5px 10px; cursor: pointer; }
+        #viewOrders { background: #007bff; color: white; padding: 8px; border: none; cursor: pointer; margin-top: 10px; }
+        #checkout { background: #dc3545; color: white; padding: 8px; border: none; cursor: pointer; margin-top: 10px; display: none; }
+    </style>
+</head>
+<body>
+
+    <h2>🍽 Food Menu</h2>
+    <div id="menuList"></div>
+    
+    <button id="viewOrders">📋 View Orders</button>
+    <button id="checkout">💳 Checkout</button>
+
+    <script>
+        let menu = {
+            "1": {"name": "Pizza", "price": 10, "desc": "Delicious cheese pizza"},
+            "2": {"name": "Burger", "price": 5, "desc": "Juicy grilled burger"},
+            "3": {"name": "Pasta", "price": 8, "desc": "Creamy Alfredo pasta"},
+            "4": {"name": "Salad", "price": 6, "desc": "Fresh vegetable salad"}
+        };
+
+        let orders = [];
+
+        function loadMenu() {
+            let menuList = document.getElementById("menuList");
+            menuList.innerHTML = ""; // Clear previous items
+            
+            Object.keys(menu).forEach(key => {
+                let item = menu[key];
+                let div = document.createElement("div");
+                div.className = "menu-item";
+                div.innerHTML = `<b>${item.name}</b> - $${item.price} <br> ${item.desc} <br> 
+                    <button onclick='placeOrder(${key})'>🛒 Order</button>`;
+                menuList.appendChild(div);
+            });
+        }
+
+        function placeOrder(itemId) {
+            let item = menu[itemId];
+            orders.push(item);
+
+            if (window.Telegram && Telegram.WebApp) {
+                Telegram.WebApp.sendData(JSON.stringify(item));  // Send order to bot
+                alert(`✅ Order added: ${item.name}`);
+                document.getElementById("checkout").style.display = "block"; // Show checkout button
+            } else {
+                alert("❌ Error: Not inside Telegram WebApp!");
+            }
+        }
+
+        function viewOrders() {
+            if (orders.length === 0) {
+                alert("📌 No orders yet!");
+                return;
+            }
+            
+            let orderList = orders.map(o => `${o.name} - $${o.price}`).join("\n");
+            alert("🛒 Your Orders:\n" + orderList);
+        }
+
+        function checkout() {
+            if (window.Telegram && Telegram.WebApp) {
+                Telegram.WebApp.sendData(JSON.stringify({checkout: true, orders: orders}));
+                alert("✅ Order placed successfully! The bot will confirm.");
+                orders = [];
+                document.getElementById("checkout").style.display = "none"; // Hide checkout button
+            }
+        }
+
+        document.getElementById("viewOrders").addEventListener("click", viewOrders);
+        document.getElementById("checkout").addEventListener("click", checkout);
+        window.onload = loadMenu; // Load menu on page open
+    </script>
+
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Menu</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 10px; }
+        .menu-item { border: 1px solid #ddd; padding: 10px; margin: 10px; border-radius: 5px; }
+        .menu-item button { background: #28a745; color: white; border: none; padding: 5px 10px; cursor: pointer; }
+        #viewOrders { background: #007bff; color: white; padding: 8px; border: none; cursor: pointer; margin-top: 10px; }
+        #checkout { background: #dc3545; color: white; padding: 8px; border: none; cursor: pointer; margin-top: 10px; display: none; }
+    </style>
+</head>
+<body>
+
+    <h2>🍽 Food Menu</h2>
+    <div id="menuList"></div>
+    
+    <button id="viewOrders">📋 View Orders</button>
+    <button id="checkout">💳 Checkout</button>
+
+    <script>
+        let menu = {
+            "1": {"name": "Pizza", "price": 10, "desc": "Delicious cheese pizza"},
+            "2": {"name": "Burger", "price": 5, "desc": "Juicy grilled burger"},
+            "3": {"name": "Pasta", "price": 8, "desc": "Creamy Alfredo pasta"},
+            "4": {"name": "Salad", "price": 6, "desc": "Fresh vegetable salad"}
+        };
+
+        let orders = [];
+
+        function loadMenu() {
+            let menuList = document.getElementById("menuList");
+            menuList.innerHTML = ""; // Clear previous items
+            
+            Object.keys(menu).forEach(key => {
+                let item = menu[key];
+                let div = document.createElement("div");
+                div.className = "menu-item";
+                div.innerHTML = `<b>${item.name}</b> - $${item.price} <br> ${item.desc} <br> 
+                    <button onclick='placeOrder(${key})'>🛒 Order</button>`;
+                menuList.appendChild(div);
+            });
+        }
+
+        function placeOrder(itemId) {
+            let item = menu[itemId];
+            orders.push(item);
+
+            if (window.Telegram && Telegram.WebApp) {
+                Telegram.WebApp.sendData(JSON.stringify(item));  // Send order to bot
+                alert(`✅ Order added: ${item.name}`);
+                document.getElementById("checkout").style.display = "block"; // Show checkout button
+            } else {
+                alert("❌ Error: Not inside Telegram WebApp!");
+            }
+        }
+
+        function viewOrders() {
+            if (orders.length === 0) {
+                alert("📌 No orders yet!");
+                return;
+            }
+            
+            let orderList = orders.map(o => `${o.name} - $${o.price}`).join("\n");
+            alert("🛒 Your Orders:\n" + orderList);
+        }
+
+        function checkout() {
+            if (window.Telegram && Telegram.WebApp) {
+                Telegram.WebApp.sendData(JSON.stringify({checkout: true, orders: orders}));
+                alert("✅ Order placed successfully! The bot will confirm.");
+                orders = [];
+                document.getElementById("checkout").style.display = "none"; // Hide checkout button
+            }
+        }
+
+        document.getElementById("viewOrders").addEventListener("click", viewOrders);
+        document.getElementById("checkout").addEventListener("click", checkout);
+        window.onload = loadMenu; // Load menu on page open
+    </script>
+
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Menu</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 10px; }
+        .menu-item { border: 1px solid #ddd; padding: 10px; margin: 10px; border-radius: 5px; }
+        .menu-item button { background: #28a745; color: white; border: none; padding: 5px 10px; cursor: pointer; }
+        #viewOrders { background: #007bff; color: white; padding: 8px; border: none; cursor: pointer; margin-top: 10px; }
+        #checkout { background: #dc3545; color: white; padding: 8px; border: none; cursor: pointer; margin-top: 10px; display: none; }
+    </style>
+</head>
+<body>
+
+    <h2>🍽 Food Menu</h2>
+    <div id="menuList"></div>
+    
+    <button id="viewOrders">📋 View Orders</button>
+    <button id="checkout">💳 Checkout</button>
+
+    <script>
+        let menu = {
+            "1": {"name": "Pizza", "price": 10, "desc": "Delicious cheese pizza"},
+            "2": {"name": "Burger", "price": 5, "desc": "Juicy grilled burger"},
+            "3": {"name": "Pasta", "price": 8, "desc": "Creamy Alfredo pasta"},
+            "4": {"name": "Salad", "price": 6, "desc": "Fresh vegetable salad"}
+        };
+
+        let orders = [];
+
+        function loadMenu() {
+            let menuList = document.getElementById("menuList");
+            menuList.innerHTML = ""; // Clear previous items
+            
+            Object.keys(menu).forEach(key => {
+                let item = menu[key];
+                let div = document.createElement("div");
+                div.className = "menu-item";
+                div.innerHTML = `<b>${item.name}</b> - $${item.price} <br> ${item.desc} <br> 
+                    <button onclick='placeOrder(${key})'>🛒 Order</button>`;
+                menuList.appendChild(div);
+            });
+        }
+
+        function placeOrder(itemId) {
+            let item = menu[itemId];
+            orders.push(item);
+
+            if (window.Telegram && Telegram.WebApp) {
+                Telegram.WebApp.sendData(JSON.stringify(item));  // Send order to bot
+                alert(`✅ Order added: ${item.name}`);
+                document.getElementById("checkout").style.display = "block"; // Show checkout button
+            } else {
+                alert("❌ Error: Not inside Telegram WebApp!");
+            }
+        }
+
+        function viewOrders() {
+            if (orders.length === 0) {
+                alert("📌 No orders yet!");
+                return;
+            }
+            
+            let orderList = orders.map(o => `${o.name} - $${o.price}`).join("\n");
+            alert("🛒 Your Orders:\n" + orderList);
+        }
+
+        function checkout() {
+            if (window.Telegram && Telegram.WebApp) {
+                Telegram.WebApp.sendData(JSON.stringify({checkout: true, orders: orders}));
+                alert("✅ Order placed successfully! The bot will confirm.");
+                orders = [];
+                document.getElementById("checkout").style.display = "none"; // Hide checkout button
+            }
+        }
+
+        document.getElementById("viewOrders").addEventListener("click", viewOrders);
+        document.getElementById("checkout").addEventListener("click", checkout);
+        window.onload = loadMenu; // Load menu on page open
+    </script>
+
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Menu</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 10px; }
+        .menu-item { border: 1px solid #ddd; padding: 10px; margin: 10px; border-radius: 5px; }
+        .menu-item button { background: #28a745; color: white; border: none; padding: 5px 10px; cursor: pointer; }
+        #viewOrders { background: #007bff; color: white; padding: 8px; border: none; cursor: pointer; margin-top: 10px; }
+        #checkout { background: #dc3545; color: white; padding: 8px; border: none; cursor: pointer; margin-top: 10px; display: none; }
+    </style>
+</head>
+<body>
+
+    <h2>🍽 Food Menu</h2>
+    <div id="menuList"></div>
+    
+    <button id="viewOrders">📋 View Orders</button>
+    <button id="checkout">💳 Checkout</button>
+
+    <script>
+        let menu = {
+            "1": {"name": "Pizza", "price": 10, "desc": "Delicious cheese pizza"},
+            "2": {"name": "Burger", "price": 5, "desc": "Juicy grilled burger"},
+            "3": {"name": "Pasta", "price": 8, "desc": "Creamy Alfredo pasta"},
+            "4": {"name": "Salad", "price": 6, "desc": "Fresh vegetable salad"}
+        };
+
+        let orders = [];
+
+        function loadMenu() {
+            let menuList = document.getElementById("menuList");
+            menuList.innerHTML = ""; // Clear previous items
+            
+            Object.keys(menu).forEach(key => {
+                let item = menu[key];
+                let div = document.createElement("div");
+                div.className = "menu-item";
+                div.innerHTML = `<b>${item.name}</b> - $${item.price} <br> ${item.desc} <br> 
+                    <button onclick='placeOrder(${key})'>🛒 Order</button>`;
+                menuList.appendChild(div);
+            });
+        }
+
+        function placeOrder(itemId) {
+            let item = menu[itemId];
+            orders.push(item);
+
+            if (window.Telegram && Telegram.WebApp) {
+                Telegram.WebApp.sendData(JSON.stringify(item));  // Send order to bot
+                alert(`✅ Order added: ${item.name}`);
+                document.getElementById("checkout").style.display = "block"; // Show checkout button
+            } else {
+                alert("❌ Error: Not inside Telegram WebApp!");
+            }
+        }
+
+        function viewOrders() {
+            if (orders.length === 0) {
+                alert("📌 No orders yet!");
+                return;
+            }
+            
+            let orderList = orders.map(o => `${o.name} - $${o.price}`).join("\n");
+            alert("🛒 Your Orders:\n" + orderList);
+        }
+
+        function checkout() {
+            if (window.Telegram && Telegram.WebApp) {
+                Telegram.WebApp.sendData(JSON.stringify({checkout: true, orders: orders}));
+                alert("✅ Order placed successfully! The bot will confirm.");
+                orders = [];
+                document.getElementById("checkout").style.display = "none"; // Hide checkout button
+            }
+        }
+
+        document.getElementById("viewOrders").addEventListener("click", viewOrders);
+        document.getElementById("checkout").addEventListener("click", checkout);
+        window.onload = loadMenu; // Load menu on page open
+    </script>
+
+</body>
+      </html>
