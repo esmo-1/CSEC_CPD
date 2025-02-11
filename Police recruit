@@ -1,0 +1,27 @@
+#include <iostream>
+using namespace std;
+
+int main() {
+    int n, m;
+    cin >> n >> m;  // n: number of events, m: initial officers (0 at start)
+    
+    int officers = 0, untreatedCrimes = 0;
+    
+    for (int i = 0; i < n; i++) {
+        string event;
+        cin >> event;
+        
+        if (event == "crime") {
+            if (officers > 0) {
+                officers--;  // Assign one officer to the crime
+            } else {
+                untreatedCrimes++;  // No officer available, crime goes untreated
+            }
+        } else if (event == "recruit") {
+            officers++;  // New officer hired
+        }
+    }
+    
+    cout << untreatedCrimes << endl;  // Output the number of untreated crimes
+    return 0;
+}
