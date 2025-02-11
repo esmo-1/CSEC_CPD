@@ -1,0 +1,21 @@
+#include <iostream>
+using namespace std;
+
+int main() {
+    int n, groups = 1;
+    cin >> n;
+
+    string prev, curr;
+    cin >> prev;
+
+    for (int i = 1; i < n; i++) {
+        cin >> curr;
+        if (curr != prev) { // Repulsion occurs → new group
+            groups++;
+        }
+        prev = curr; // Update previous magnet
+    }
+
+    cout << groups << endl;
+    return 0;
+}
