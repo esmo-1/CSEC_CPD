@@ -1,0 +1,32 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+int main() {
+    int n;  // Number of wires
+    cin >> n;
+vector<int> birds_on_wire(n);  
+    for (int i = 0; i < n; ++i) {
+        cin >> birds_on_wire[i];
+    }
+    int m;  
+    cin >> m;
+    for (int i = 0; i < m; ++i) {
+        int x, y;
+        cin >> x >> y;
+        x -= 1;
+        if (x > 0) {
+            birds_on_wire[x - 1] += y - 1;  // Birds from 1 to y-1
+        }
+        if (x < n - 1) {
+            birds_on_wire[x + 1] += birds_on_wire[x] - y;  // Birds from y+1 to ai
+        }
+        birds_on_wire[x] = 0;
+    }
+    for (int i = 0; i < n; ++i) {
+        cout << birds_on_wire[i] << endl;
+    }
+
+    return 0;
+}
