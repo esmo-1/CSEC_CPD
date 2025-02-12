@@ -1,0 +1,17 @@
+#include <iostream>
+#include <set>
+
+using namespace std;
+
+int main() {
+    char horseshoes[4];
+    for (int i = 0; i < 4; ++i) {
+        cin >> horseshoes[i];  
+    }
+
+    set<char> unique_horseshoes(horseshoes, horseshoes + 4);  
+    int needed = 4 - unique_horseshoes.size();  
+    
+    cout << needed << endl;
+    return 0;
+}
