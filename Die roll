@@ -1,0 +1,24 @@
+#include <iostream>
+#include <algorithm>
+
+using namespace std;
+int gcd(int a, int b) {
+    while (b != 0) {
+        int temp = b;
+        b = a % b;
+        a = temp;
+    }
+    return a;
+}
+int main() {
+    int Y, W;
+    cin >> Y >> W;
+    int max_roll = max(Y, W);  
+    int favorable_outcomes = 7 - max_roll;  
+    int numerator = favorable_outcomes;
+    int denominator = 6;
+    int common_divisor = gcd(numerator, denominator);
+    cout << numerator / common_divisor << "/" << denominator / common_divisor << endl;
+
+    return 0;
+}
