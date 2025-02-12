@@ -1,0 +1,23 @@
+#include <iostream>
+#include <string>
+#include <cmath>
+
+using namespace std;
+
+int main() {
+    string s;
+    cin >> s;  
+
+    char current = 'a';  
+    int total_rotations = 0;
+
+    for (char target : s) {
+        int clockwise = (target - current + 26) % 26;
+        int counterclockwise = (current - target + 26) % 26;
+        total_rotations += min(clockwise, counterclockwise);
+        current = target;  
+    }
+
+    cout << total_rotations << endl;
+    return 0;
+}
